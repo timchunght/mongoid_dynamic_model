@@ -19,6 +19,29 @@ module Mongoid
         return result
       end
 
+      def new_model(model) 
+
+        model = {
+          :name => model,
+          :fields => [
+            {
+              :name => 'name',
+              :type => String,
+              :length => 128,
+              :validators => {
+                :presence => true
+              }
+            }
+          ]
+        }  
+        options = {} 
+        @code  = []
+        result = build(model, options[:force])
+        return @code.join("\n") if options[:code]
+        puts "Created #{result}"
+        return result
+      end
+
       private
 
       # Build a model class
