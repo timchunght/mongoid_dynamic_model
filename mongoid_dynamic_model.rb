@@ -19,7 +19,7 @@ module Mongoid
         return result
       end
 
-      def new_model(model) 
+      def new_model model, options = {}
 
         model = {
           :name => model,
@@ -34,7 +34,6 @@ module Mongoid
             }
           ]
         }  
-        options = {} 
         @code  = []
         result = build(model, options[:force])
         return @code.join("\n") if options[:code]
