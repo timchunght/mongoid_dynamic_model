@@ -41,6 +41,9 @@ module Mongoid
         return result
       end
 
+      def list_collections
+        return Mongoid.default_client.database.collection_names
+      end
       private
 
       # Build a model class
