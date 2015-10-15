@@ -36,14 +36,19 @@ module Mongoid
         }  
         @code  = []
         result = build(model, options[:force])
-        return @code.join("\n") if options[:code]
-        puts "Created #{result}"
-        return result
+        # Return the code that generates the model
+        # if options[:code] == true
+        if options[:code]
+          return @code.join("\n") 
+        else
+          return result
+        end
       end
 
       def list_collections
         return Mongoid.default_client.database.collection_names
       end
+
       private
 
       # Build a model class

@@ -17,4 +17,7 @@ describe Mongoid::DynamicModel do
 		puts tables
 	end
 
+	xit "creates a model based on the collection" do
+		Mongoid::DynamicModel.new_model("CustomModel")
+	end
 end
