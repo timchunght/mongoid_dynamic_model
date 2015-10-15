@@ -8,6 +8,22 @@ To load a models.rb file, do
 
 	Mongoid::DynamicModel.load('models.rb')
 
+
+###Access Mongo Client via irb:
+
+	Mongoid.configure do |config|
+	  config.connect_to('mongoid_dynamic_model_test')
+	end
+
+And require the necessary model/class to access the collection
+
+###Sample Mongoid class:
+
+	class Book
+		 include Mongoid::Document
+		 field :name, type: String
+	end
+
 Dependency:
 
 Mongoid
