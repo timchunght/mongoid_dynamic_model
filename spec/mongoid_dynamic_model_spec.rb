@@ -7,5 +7,6 @@ describe Mongoid::DynamicModel do
     CustomModel.create(name: "first_custom_model")
     custom_model = CustomModel.first
     expect(custom_model.name).to eq "first_custom_model"
+    remove_objects(CustomModel)
   end
 end
