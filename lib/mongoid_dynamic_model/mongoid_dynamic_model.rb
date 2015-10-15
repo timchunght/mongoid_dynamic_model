@@ -46,7 +46,21 @@ module Mongoid
       end
 
       def list_collections
-        return Mongoid.default_client.database.collection_names
+        db_connect.collection_names
+      end
+
+      def drop_collections
+        db_connect.collections.each do |col|
+          col.drop
+        end
+      end
+
+      def drop_collection(name)
+        if list_collections.include?(name)
+          db_connect[name].drop
+        else
+          raise "Collection #{name} not found"
+        end
       end
 
       private
@@ -135,6 +149,14 @@ module Mongoid
         raise "Field validators list must be a Hash (#{field[:validators].class} provided)" unless field[:validators].is_a? Hash
 
         model_append "validates :#{field[:name]}, #{field[:validators]}"
+      end
+
+      def db_connect setting = {}
+        # if setting
+
+
+        return Mongoid.default_client.database
+        # end
       end
     end
   end

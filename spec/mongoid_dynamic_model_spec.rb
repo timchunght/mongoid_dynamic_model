@@ -17,6 +17,15 @@ describe Mongoid::DynamicModel do
 		puts tables
 	end
 
+	it "removes all collections" do
+		remove_collections
+	end
+
+	it "raises error when dropping a non-existent collection" do
+		expect{Mongoid::DynamicModel.drop_collection("non_existent_models")}.to raise_error("Collection non_existent_models not found")
+
+	end
+
 	xit "creates a model based on the collection" do
 		Mongoid::DynamicModel.new_model("CustomModel")
 	end
