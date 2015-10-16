@@ -4,7 +4,7 @@
     :fields => [
       {
         :name => 'name',
-        :type => String,
+        :type => 'String',
         :length => 128,
         :validators => {
           :presence => true
@@ -19,7 +19,7 @@
         }
       }, {
         :name => 'birthdate',
-        :type => Date
+        :type => "Date"
       }
     ]
   }, {
@@ -34,7 +34,7 @@
         }
       }, {
         :name => 'salary',
-        :type => Float,
+        :type => "Float",
         :default => 1000.00
       }
     ]

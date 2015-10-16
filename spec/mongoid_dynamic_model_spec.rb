@@ -30,6 +30,17 @@ describe Mongoid::DynamicModel do
 
 	end
 
+	it "raises no class error when inserting a field a non-existent model" do
+		Mongoid::DynamicModel.new_model("HelloModel")
+		Mongoid::DynamicModel.insert_field("HelloModel", {name: "email", type: "String"})
+		HelloModel.create
+	end
+
+	it "creates models" do
+		Mongoid::DynamicModel.load("./lib/models.rb")
+		expect(Person.fields["name"].type).to eq String
+	end
+
 	xit "creates a model based on the collection" do
 		Mongoid::DynamicModel.new_model("CustomModel")
 	end

@@ -32,6 +32,14 @@ For multi-model schema configuration, check ``models.rb`` for basic configuratio
 		 field :name, type: String
 	end
 
+#In Console Loading:
+
+The follow are the scripts to load the programme in irb quickly for debug during gem development
+
+	require "mongoid"
+	load './lib/mongoid_dynamic_model/mongoid_dynamic_model.rb'
+	Mongoid::DynamicModel.load("./lib/models.rb")
+
 Dependency:
 ---
 Mongoid

@@ -1,3 +1,4 @@
+require "json"
 module Mongoid
   module DynamicModel
     class << self
@@ -43,6 +44,26 @@ module Mongoid
         else
           return result
         end
+      end
+
+      def insert_field(model, field)
+        if Object.const_defined? model
+          
+          [:type, :name].each do |key|
+            if field.has_key?(key) && !field[key].empty? && !field[key].nil?
+            else
+              raise "#{key} and value must be present"
+            end
+          end
+          @model = model.constantize
+          add_field field
+          
+        else
+          raise NameError, "uninitialized model #{model}"
+        end
+      end
+
+      def insert_fields(model, fields)
       end
 
       def list_collections(setting = {})
@@ -125,6 +146,7 @@ module Mongoid
       def add_field field
         raise "Field must be a Hash (#{field.class} provided)" unless field.is_a? Hash
 
+        
         # Retrieve parent field options if not overloaded
         if @model.superclass.respond_to?('fields') && @model.superclass.fields.has_key?(field[:name])
           parent = @model.superclass.fields[field[:name]]
@@ -133,11 +155,26 @@ module Mongoid
           field[:label]    = parent.label       unless field[:label]
           field[:localize] = parent.localized?  unless field[:localize]
         end
+        # puts field.to_json
+
+        new_model_options = ""
+        
+        if field.has_key?(:name) && !field[:name].empty? && !field[:name].nil?   
+            new_model_options = "field :#{field[:name]}"
+        else
+            raise "name and its value must be present"
+        end
 
         # Field definition
         allowed_options = [:type, :default, :localize, :label]
-        model_append "field :#{field[:name]}, #{field.slice(allowed_options)}"
-
+        allowed_options.map do |option|
+          # option = option.to_s
+          if field[option]
+            new_model_options += ", #{option.to_s}: #{field[option]}"
+          end
+        end
+        model_append new_model_options
+        # puts new_model_options
         # Length option automatically creates a maximum length validator
         field = {:validators => {:length => {:maximum => field[:length]}}}.deep_merge(field) if field[:length]
         add_validators field
