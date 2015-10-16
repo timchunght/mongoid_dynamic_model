@@ -45,19 +45,19 @@ module Mongoid
         end
       end
 
-      def list_collections
-        db_connect.collection_names
+      def list_collections(setting = {})
+        db_connect(setting).collection_names
       end
 
-      def drop_collections
-        db_connect.collections.each do |col|
+      def drop_collections(setting = {})
+        db_connect(setting).collections.each do |col|
           col.drop
         end
       end
 
-      def drop_collection(name)
+      def drop_collection(name, setting = {})
         if list_collections.include?(name)
-          db_connect[name].drop
+          db_connect(setting)[name].drop
         else
           raise "Collection #{name} not found"
         end
@@ -152,11 +152,11 @@ module Mongoid
       end
 
       def db_connect setting = {}
-        # if setting
-
-
-        return Mongoid.default_client.database
-        # end
+        if setting.empty?
+          Mongoid.default_client.database
+        else
+          Mongo::Client.new([ "#{setting[:host]}:#{setting[:port]}" ], :database => "#{setting[:database]}").database
+        end
       end
     end
   end

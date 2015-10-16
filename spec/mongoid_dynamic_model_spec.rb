@@ -11,11 +11,15 @@ describe Mongoid::DynamicModel do
   end
 
   it "lists collections in the current configured database (connection testing)" do
-  	# db = Mongoid.default_client.database
-		# puts db.collection_names.join(",")
 		tables = Mongoid::DynamicModel.list_collections
 		puts tables
 	end
+
+	# it "connect to db by specifying db" do
+	# 	db_setting = {host: "localhost", port: "27017", database: "new_database"}
+ #    tables = Mongoid::DynamicModel.list_collections(db_setting)
+ #    puts tables
+ #  end
 
 	it "removes all collections" do
 		remove_collections
