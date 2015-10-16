@@ -42,11 +42,16 @@ module Mongoid
       end
 
       # Insert field overwrite existing settings if field already exists
+      # It will turn any class into a Mongoid class in memory 
       def insert_field(model, field)
         if Object.const_defined? model
 
           @model = model.constantize
-          add_field field
+          if @model.included_modules.include?(Mongoid::Document)
+            add_field field
+          else
+            raise "Not a Mongoid model"
+          end
           
         else
           raise NameError, "uninitialized model #{model}"
