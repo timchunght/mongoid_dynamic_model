@@ -10,6 +10,13 @@ describe Mongoid::DynamicModel do
     remove_objects(CustomModel)
   end
 
+  it "creates a CustomModel" do
+
+  	Mongoid::DynamicModel.insert_field("CustomModel", {name: "name", type: "Integer"})
+    expect(CustomModel.fields["name"].type).to eq Integer
+    # remove_objects(CustomModel)
+  end
+
   it "lists collections in the current configured database (connection testing)" do
 		tables = Mongoid::DynamicModel.list_collections
 		puts tables

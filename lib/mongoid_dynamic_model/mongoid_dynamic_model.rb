@@ -41,15 +41,10 @@ module Mongoid
         end
       end
 
+      # Insert field overwrite existing settings if field already exists
       def insert_field(model, field)
         if Object.const_defined? model
-          
-          [:type, :name].each do |key|
-            if field.has_key?(key) && !field[key].empty? && !field[key].nil?
-            else
-              raise "#{key} and value must be present"
-            end
-          end
+
           @model = model.constantize
           add_field field
           
