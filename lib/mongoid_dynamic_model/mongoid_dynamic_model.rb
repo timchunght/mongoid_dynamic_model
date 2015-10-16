@@ -20,20 +20,15 @@ module Mongoid
         return result
       end
 
-      def new_model model, options = {}
+      def new_model model, fields = [], options = {}
+
+        if fields.class == Hash && !fields.blank?
+          fields = [fields]
+        end
 
         model = {
           :name => model,
-          :fields => [
-            {
-              :name => 'name',
-              :type => String,
-              :length => 128,
-              :validators => {
-                :presence => true
-              }
-            }
-          ]
+          :fields => fields
         }  
         @code  = []
         result = build(model, options[:force])
